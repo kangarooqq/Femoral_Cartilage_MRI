@@ -1,19 +1,19 @@
+
 """Shared paths for the SKM-TEA analysis scripts.
 
 No Stanford source data are shipped with this repository. Configure their
 location using the SKMTEA_DATA_ROOT environment variable before running.
 """
 
-"""
-Project path configuration.
-
-Please modify these paths according to your local environment.
-"""
-
+import os
 from pathlib import Path
 
-PROJECT_ROOT = Path("/your/project/root")
+REPOSITORY_DIR = Path(__file__).resolve().parent
 
-DATA_DIR = PROJECT_ROOT / "data"
+# Default private data directory next to the scripts (never commit its contents).
+DATA_ROOT = Path(os.environ.get("SKMTEA_DATA_ROOT", REPOSITORY_DIR / "data")).expanduser().resolve()
 
-OUTPUT_DIR = PROJECT_ROOT / "outputs"
+# Output folder may be overridden independently if required.
+ANALYSIS_DIR = Path(os.environ.get("SKMTEA_ANALYSIS_DIR", DATA_ROOT / "analysis_20260927")).expanduser().resolve()
+
+ANALYSIS_DIR.mkdir(parents=True, exist_ok=True)
